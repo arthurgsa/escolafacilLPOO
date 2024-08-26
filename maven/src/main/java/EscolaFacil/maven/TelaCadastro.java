@@ -7,25 +7,32 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+
+import dao.DAO;
+import model.Cliente;
+
 import javax.swing.UIManager;
 import javax.swing.JToggleButton;
 import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaCadastro extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField textFieldNome;
+	private JTextField textFieldCpf;
+	private JTextField textFieldTelefone;
+	private JTextField textFieldEmail;
+	private JTextField textFieldChave;
 
 	/**
 	 * Launch the application.
@@ -34,7 +41,7 @@ public class TelaCadastro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCadastro frame = new TelaCadastro();
+					TelaCadastro frame = new TelaCadastro(null, null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,9 +53,11 @@ public class TelaCadastro extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaCadastro() {
+	public TelaCadastro(Cliente clienteSelecionado, ListaClientes listaCliente) {
+		DAO dao = new DAO();
+		
 		getContentPane().setBackground(new Color(48, 105, 41));
-		setBounds(100, 100, 1280, 720);
+		setBounds(100, 100, 588, 535);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -56,96 +65,163 @@ public class TelaCadastro extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(80, 70, 1100, 540);
+		panel.setBounds(40, 30, 488, 426);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Nome");
-		lblNewLabel.setBounds(319, 67, 46, 14);
-		panel.add(lblNewLabel);
+		JLabel lblNome = new JLabel("Nome");
+		lblNome.setBounds(26, 71, 46, 14);
+		panel.add(lblNome);
 		
-		textField = new JTextField();
-		textField.setBounds(319, 83, 434, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		textFieldNome = new JTextField();
+		textFieldNome.setBounds(26, 87, 434, 20);
+		panel.add(textFieldNome);
+		textFieldNome.setColumns(10);
 		
-		JLabel lblPrimeiroAcessoAluno = new JLabel("PRIMEIRO ACESSO");
+		JLabel lblPrimeiroAcessoAluno = new JLabel("Cadastro");
 		lblPrimeiroAcessoAluno.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblPrimeiroAcessoAluno.setBounds(443, 22, 195, 35);
+		lblPrimeiroAcessoAluno.setBounds(190, 11, 128, 35);
 		panel.add(lblPrimeiroAcessoAluno);
 		
-		JLabel lblCpfcnpj = new JLabel("CPF/CNPJ");
-		lblCpfcnpj.setBounds(319, 114, 54, 14);
-		panel.add(lblCpfcnpj);
+		JLabel lblCpf = new JLabel("CPF/CNPJ");
+		lblCpf.setBounds(26, 118, 54, 14);
+		panel.add(lblCpf);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(319, 130, 434, 20);
-		panel.add(textField_1);
+		textFieldCpf = new JTextField();
+		textFieldCpf.setColumns(10);
+		textFieldCpf.setBounds(26, 134, 434, 20);
+		panel.add(textFieldCpf);
 		
-		JLabel lblEmail = new JLabel("Telefone");
-		lblEmail.setBounds(319, 170, 54, 14);
+		JLabel lblTelefone = new JLabel("Telefone");
+		lblTelefone.setBounds(26, 165, 54, 14);
+		panel.add(lblTelefone);
+		
+		textFieldTelefone = new JTextField();
+		textFieldTelefone.setColumns(10);
+		textFieldTelefone.setBounds(26, 181, 434, 20);
+		panel.add(textFieldTelefone);
+		
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setBounds(26, 212, 54, 14);
 		panel.add(lblEmail);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(319, 186, 434, 20);
-		panel.add(textField_2);
+		textFieldEmail = new JTextField();
+		textFieldEmail.setColumns(10);
+		textFieldEmail.setBounds(26, 228, 434, 20);
+		panel.add(textFieldEmail);
 		
-		JLabel lblEmail_1 = new JLabel("Email");
-		lblEmail_1.setBounds(319, 226, 54, 14);
-		panel.add(lblEmail_1);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(319, 242, 434, 20);
-		panel.add(textField_3);
-		
-		JLabel lblEndereo = new JLabel("Endereço");
-		lblEndereo.setBounds(319, 320, 54, 14);
-		panel.add(lblEndereo);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(new LineBorder(new Color(171, 173, 179)));
-		textArea.setBounds(319, 336, 434, 52);
-		panel.add(textArea);
-		
-		JButton btnCadastrar = new JButton("Cadastrar");
+		JButton btnCadastrar = new JButton(clienteSelecionado == null? "Incluir" : "Alterar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Cliente cliente = new Cliente(null, textFieldNome.getText(), textFieldCpf.getText(), textFieldEmail.getText(), textFieldTelefone.getText());
+				//String id, String nome, String cpfCnpj, String email, String telefone
+				if(clienteSelecionado == null) {
+					if(!"".equalsIgnoreCase(textFieldNome.getText()) && !"".equalsIgnoreCase(textFieldCpf.getText())) {
+						dao.cadastrarCliente(cliente);
+					} else {
+						JOptionPane.showMessageDialog(null, "Confira os campos Nome e CPF/CNPJ");
+					}
+				
+				
+				} else {
+					if(!"".equalsIgnoreCase(textFieldNome.getText()) && !"".equalsIgnoreCase(textFieldCpf.getText())) {
+						dao.alterarCliente(clienteSelecionado.getId(), cliente);
+						abrirListaClientes(listaCliente);
+					} else {
+						JOptionPane.showMessageDialog(null, "Confira os campos Nome e CPF/CNPJ");
+					}
+					
+				}
+			}
+
+			
+		});
 		btnCadastrar.setForeground(Color.WHITE);
 		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnCadastrar.setBackground(new Color(106, 181, 111));
-		btnCadastrar.setBounds(450, 477, 173, 23);
+		btnCadastrar.setBounds(156, 382, 173, 23);
 		panel.add(btnCadastrar);
 		
 		JLabel lblEmail_1_1 = new JLabel("Aluno");
-		lblEmail_1_1.setBounds(344, 420, 54, 14);
+		lblEmail_1_1.setBounds(57, 332, 54, 14);
 		panel.add(lblEmail_1_1);
 		
 		JLabel lblEmail_1_1_1 = new JLabel("Professor");
-		lblEmail_1_1_1.setBounds(344, 441, 54, 14);
+		lblEmail_1_1_1.setBounds(57, 353, 54, 14);
 		panel.add(lblEmail_1_1_1);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("");
 		rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
-		rdbtnNewRadioButton.setBounds(319, 420, 21, 14);
+		rdbtnNewRadioButton.setBounds(32, 332, 21, 14);
 		panel.add(rdbtnNewRadioButton);
 		
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("");
 		rdbtnNewRadioButton_1.setBackground(Color.WHITE);
-		rdbtnNewRadioButton_1.setBounds(319, 441, 21, 14);
+		rdbtnNewRadioButton_1.setBounds(32, 353, 21, 14);
 		panel.add(rdbtnNewRadioButton_1);
 		
 		JLabel lblEmail_1_1_2 = new JLabel("Você é");
-		lblEmail_1_1_2.setBounds(319, 399, 54, 14);
+		lblEmail_1_1_2.setBounds(32, 311, 54, 14);
 		panel.add(lblEmail_1_1_2);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(319, 289, 434, 20);
-		panel.add(textField_4);
+		textFieldChave = new JTextField();
+		textFieldChave.setColumns(10);
+		textFieldChave.setBounds(26, 275, 434, 20);
+		panel.add(textFieldChave);
 		
-		JLabel lblEmail_1_2 = new JLabel("Chave de Vínculo Escolar");
-		lblEmail_1_2.setBounds(319, 273, 181, 14);
-		panel.add(lblEmail_1_2);
+		JLabel lblChave = new JLabel("Chave de Vínculo Escolar");
+		lblChave.setBounds(26, 259, 181, 14);
+		panel.add(lblChave);
+		
+		JLabel lblTenhaEmMos = new JLabel("Tenha em mãos a chave fornecida pela sua escola.");
+		lblTenhaEmMos.setForeground(new Color(128, 128, 128));
+		lblTenhaEmMos.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblTenhaEmMos.setBounds(99, 41, 253, 35);
+		panel.add(lblTenhaEmMos);
+		
+		
+		
+		if(clienteSelecionado != null) {
+			preencherCampos(clienteSelecionado);
+			JButton btnNewButton = new JButton("Apagar");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					dao.excluirCliente(clienteSelecionado.getId());
+					abrirListaClientes(listaCliente);
+					
+				}
+			});
+			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
+			btnNewButton.setForeground(new Color(255, 255, 255));
+			btnNewButton.setBackground(new Color(128, 0, 0));
+			btnNewButton.setBounds(367, 384, 89, 23);
+			panel.add(btnNewButton);
+		}
+	}
+	private void preencherCampos(Cliente clienteSelecionado) {
+		textFieldNome.setText(clienteSelecionado.getNome());
+		textFieldCpf.setText(clienteSelecionado.getCpfCnpj());
+		textFieldEmail.setText(clienteSelecionado.getEmail());
+		textFieldTelefone.setText(clienteSelecionado.getTelefone());
+		
+	}
+	
+	private void abrirListaClientes(ListaClientes listaCliente) {
+	    // Verifica se a listaCliente não é null antes de chamar dispose
+	    if (listaCliente != null) {
+	        listaCliente.dispose(); // Fecha a janela anterior, se existir
+	    }
+	    
+	    // Cria uma nova instância da janela ListaClientes
+	    ListaClientes listaClienteNova = new ListaClientes();
+	    
+	    // Configura e exibe a nova janela
+	    listaClienteNova.setLocationRelativeTo(null); // Centraliza a nova janela
+	    listaClienteNova.setVisible(true); // Exibe a nova janela
+	    
+	    // Fecha a janela atual
+	    dispose(); 
 	}
 }

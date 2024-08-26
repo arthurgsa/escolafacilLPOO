@@ -5,7 +5,7 @@ import javax.swing.table.AbstractTableModel;
 public class ModeloTabela extends AbstractTableModel{
 
 	private static final String[] colunas = {
-			"ID", "CPF/CNPJ", "Nome", "Email", "Telefone", "Endere\u00E7o"
+			"ID", "CPF/CNPJ", "Nome", "Email", "Telefone"
 		};
 	private ArrayList<Cliente> clientes;
 	
@@ -39,8 +39,6 @@ public class ModeloTabela extends AbstractTableModel{
 			return cliente.getEmail();
 		}else if(columnIndex == 4) {
 			return cliente.getTelefone();
-		}else if(columnIndex == 5) {
-			return cliente.getEndereco();
 		}else {
 			return null;
 		}

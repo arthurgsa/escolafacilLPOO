@@ -6,20 +6,20 @@ public class Cliente {
 	protected String cpfCnpj;
 	protected String email;
 	protected String telefone;
-	protected String endereco;
+
 	
 	public Cliente() {
 
 	}
 	
-	public Cliente(String id, String nome, String cpfCnpj, String email, String telefone, String endereco) {
+	public Cliente(String id, String nome, String cpfCnpj, String email, String telefone) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpfCnpj = cpfCnpj;
 		this.email = email;
 		this.telefone = telefone;
-		this.endereco = endereco;
+	
 	}
 	
 	public String getId() {
@@ -52,10 +52,5 @@ public class Cliente {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public String getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
+
 }

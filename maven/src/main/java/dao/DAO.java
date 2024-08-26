@@ -18,14 +18,14 @@ public class DAO {
 	
 	
 	private static String CADASTRAR_CLIENTE = " INSERT INTO CLIENTE "
-			+ " (ID, NOME, CPFCNPJ, EMAIL, TELEFONE, ENDERECO) "
-			+ " VALUES (NULL, ?, ?, ?, ?, ?) ";
+			+ " (ID, NOME, CPFCNPJ, EMAIL, TELEFONE) "
+			+ " VALUES (NULL, ?, ?, ?, ?) ";
 	
 	private static String CONSULTAR_CLIENTE = " SELECT * FROM CLIENTE "
 			+ " WHERE ID = ? ";
 			
 	private static String ALTERAR_CLIENTE = " UPDATE CLIENTE "
-			+ " NOME = ?, CPFCNPJ = ?, EMAIL = ?, TELEFONE = ?, ENDERECO = ? "
+			+ " SET NOME = ?, CPFCNPJ = ?, EMAIL = ?, TELEFONE = ? "
 			+ " WHERE ID = ? ";
 	
 	private static String EXCLUIR_CLIENTE = " DELETE FROM CLIENTE "
@@ -57,8 +57,9 @@ public class DAO {
 			preparedStatement.setString(i++, cliente.getCpfCnpj());
 			preparedStatement.setString(i++, cliente.getEmail());
 			preparedStatement.setString(i++, cliente.getTelefone());
-			preparedStatement.setString(i++, cliente.getEndereco());
+		
 			
+			preparedStatement.execute();
 			connection.commit();
 			
 			JOptionPane.showMessageDialog(null, "CLIENTE INCLUIDO COM SUCESSO");
@@ -93,8 +94,8 @@ public class DAO {
 										resultSet.getString("NOME"), 
 										resultSet.getString("CPFCNPJ"), 
 										resultSet.getString("EMAIL"), 
-										resultSet.getString("TELEFONE"),
-										resultSet.getString("ENDERECO"));
+										resultSet.getString("TELEFONE"));
+										
 			}
 			
 
@@ -128,7 +129,7 @@ public class DAO {
 			preparedStatement.setString(i++, cliente.getCpfCnpj());
 			preparedStatement.setString(i++, cliente.getEmail());
 			preparedStatement.setString(i++, cliente.getTelefone());
-			preparedStatement.setString(i++, cliente.getEndereco());
+			
 			preparedStatement.setString(i++, id);
 			
 			preparedStatement.execute();
@@ -189,8 +190,8 @@ public class DAO {
 										resultSet.getString("NOME"), 
 										resultSet.getString("CPFCNPJ"), 
 										resultSet.getString("EMAIL"), 
-										resultSet.getString("TELEFONE"),
-										resultSet.getString("ENDERECO")));
+										resultSet.getString("TELEFONE")));
+										
 			}
 			
 
