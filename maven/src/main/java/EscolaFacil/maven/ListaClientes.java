@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
@@ -25,6 +26,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class ListaClientes {
 
@@ -102,7 +104,7 @@ public class ListaClientes {
 				if(e.getButton()==1) {
 					try {
 						Cliente clienteSelecionado = dao.consultarCliente(modeloTabela.getValueAt(table.getSelectedRow(), 0).toString());
-						TelaCadastro telaCadastro = new TelaCadastro(clienteSelecionado, listaCliente, true);
+						TelaCadastro telaCadastro = new TelaCadastro(clienteSelecionado, listaCliente, true,null);
 						telaCadastro.setLocationRelativeTo(telaCadastro);
 						telaCadastro.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
 						telaCadastro.setVisible(true);
@@ -117,10 +119,11 @@ public class ListaClientes {
 		scrollPane.setViewportView(table);
 		
 		JButton btnNewButton = new JButton("Cadastrar Cliente");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					TelaCadastro telaCadastro = new TelaCadastro(null, listaCliente, true);
+					TelaCadastro telaCadastro = new TelaCadastro(null, listaCliente, true,null);
 					telaCadastro.setLocationRelativeTo(telaCadastro);
 					telaCadastro.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
 					telaCadastro.setVisible(true);
@@ -144,6 +147,22 @@ public class ListaClientes {
 		textFieldBusca.setBounds(270, 12, 776, 20);
 		panel.add(textFieldBusca);
 		textFieldBusca.setColumns(10);
+		
+		// Adicionando o botão "Voltar"
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnVoltar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Fecha a tela atual e abre a tela de login
+		        frame.dispose();
+		        TelaInicial telaLogin = new TelaInicial();
+		        telaLogin.setVisible(true);
+		    }
+		});
+		btnVoltar.setBounds(10, 12, 65, 31); // Ajuste a posição conforme necessário
+		panel.add(btnVoltar);
+
+
 		
 		
 	}

@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controladores.Criptografia;
+import dao.DAO;
+import model.Cliente;
+import model.Usuario;
 
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
@@ -94,29 +97,92 @@ public class TelaInicial {
 		
 		JButton btnNewButton = new JButton("Entrar");
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String senhaCripto = new String(passwordField.getPassword());
-				Criptografia criptografia = new Criptografia(senhaCripto, Criptografia.MD5);
-				System.out.println(criptografia.criptografar());
-				if(!textFieldUsuario.getText().isEmpty() && passwordField.getPassword().length > 0) {
-					if(criptografia.criptografar().equals("E10ADC3949BA59ABBE56E057F20F883E")) {
-					frame.dispose();
-					ListaClientes telaPrincipal = new ListaClientes();
-					telaPrincipal.setVisible(true);
-					} else {
-						JOptionPane.showMessageDialog(btnNewButton, "Verifique as informações", "AVISO", JOptionPane.WARNING_MESSAGE);
-					}
-					
-				} else {
-					JOptionPane.showMessageDialog(btnNewButton, "Verifique as informações", "AVISO", JOptionPane.WARNING_MESSAGE);
-				}
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        // Obter a senha inserida e criptografá-la
+		    	String escola = "0";
+		        String senhaInserida = new String(passwordField.getPassword());
+		        Criptografia criptografia = new Criptografia(senhaInserida, Criptografia.MD5);
+		        String senhaCriptografada = criptografia.criptografar();
+		       
+
+		        // Verificar se os campos não estão vazios
+		        if (!textFieldUsuario.getText().isEmpty() && passwordField.getPassword().length > 0) {
+		            try {
+		                // Recuperar o cliente pelo nome de usuário
+		                DAO dao = new DAO();
+		                Cliente cliente = dao.consultarCliente(dao.consultarIdPorNomeUsuario(textFieldUsuario.getText().toLowerCase())); // Método para buscar cliente por nome
+		                
+		                // Comparar a senha criptografada inserida com a senha do cliente
+		                if (cliente != null && senhaCriptografada.equals(cliente.getSenha())) {
+		                	if ("0".equals(cliente.getEscola())) {
+		                        TelaVisualizacaoUsuario telaVisualizacao = new TelaVisualizacaoUsuario(cliente);
+		                        telaVisualizacao.setVisible(true);
+		                    } else if ("1".equals(cliente.getEscola())) {
+		                        TelaEscola telaEscola = new TelaEscola(cliente);
+		                        telaEscola.setVisible(true);
+		                    }
+		                    frame.dispose();
+		                } else {
+		                    JOptionPane.showMessageDialog(btnNewButton, "Verifique as informações", "ERRO", JOptionPane.WARNING_MESSAGE);
+		                }
+		                
+		            } catch (Exception ex) {
+		                ex.printStackTrace();
+		                JOptionPane.showMessageDialog(btnNewButton, "Verifique as informações", "ERRO", JOptionPane.WARNING_MESSAGE);
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(btnNewButton, "Preencha todos os campos", "AVISO", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
 		});
 		btnNewButton.setForeground(new Color(255, 255, 255));
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnNewButton.setBackground(new Color(48,105,41));
+		btnNewButton.setBackground(new Color(48, 105, 41));
 		btnNewButton.setBounds(427, 388, 201, 43);
+		btnNewButton.setBorder(null);
 		panel.add(btnNewButton);
+		
+		JButton btnEntrarComoUsuario = new JButton("Entrar como ADMIN");
+		btnEntrarComoUsuario.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Obter a senha inserida e criptografá-la
+		        String senhaInserida = new String(passwordField.getPassword());
+		        Criptografia criptografia = new Criptografia(senhaInserida, Criptografia.MD5);
+		        String senhaCriptografada = criptografia.criptografar();
+		        String nomeUsuario = textFieldUsuario.getText().toUpperCase();
+
+		        // Verificar se os campos não estão vazios
+		        if (!nomeUsuario.isEmpty() && !senhaInserida.isEmpty()) {
+		            try {
+		                DAO dao = new DAO();
+		                // Consultar o usuário
+		                Usuario usuario = dao.consultarUsuario(nomeUsuario, senhaCriptografada);
+		                
+		                if (usuario != null) {
+		                    // Se um usuário válido for retornado, abrir a tela de administração
+		                    ListaClientes telaAdmin = new ListaClientes();
+		                    telaAdmin.setVisible(true);
+		                    frame.dispose();
+		                } else {
+		                    JOptionPane.showMessageDialog(btnEntrarComoUsuario, "Verifique as informações", "ERRO", JOptionPane.WARNING_MESSAGE);
+		                }
+		                
+		            } catch (Exception ex) {
+		                ex.printStackTrace();
+		                JOptionPane.showMessageDialog(btnEntrarComoUsuario, "Erro ao verificar as informações", "ERRO", JOptionPane.ERROR_MESSAGE);
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(btnEntrarComoUsuario, "Preencha todos os campos", "AVISO", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		});
+		btnEntrarComoUsuario.setForeground(new Color(255, 255, 255));
+		btnEntrarComoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnEntrarComoUsuario.setBackground(new Color(128, 128, 128));
+		btnEntrarComoUsuario.setBounds(449, 469, 157, 23); // Ajuste a posição conforme necessário
+		btnEntrarComoUsuario.setBorder(null);
+		panel.add(btnEntrarComoUsuario);
+
 		
 		
 		
@@ -146,6 +212,20 @@ public class TelaInicial {
 //		btnAlunoPrimeiro.setBounds(453, 506, 150, 23);
 //		panel.add(btnAlunoPrimeiro);
 		
+		// Adicionar ActionListener para o Enter
+        ActionListener enterListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                btnNewButton.doClick(); // Simula o clique no botão "Entrar"
+            }
+        };
+        
+		textFieldUsuario.addActionListener(enterListener);
+        passwordField.addActionListener(enterListener);
+	}
 
+	public void setVisible(boolean b) {
+		frame.setVisible(b);
+		// TODO Auto-generated method stub
+		
 	}
 }

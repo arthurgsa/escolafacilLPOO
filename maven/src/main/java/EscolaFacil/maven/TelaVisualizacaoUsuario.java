@@ -12,6 +12,9 @@ import javax.swing.JTable;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
+import model.Cliente;
+
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class TelaVisualizacaoUsuario extends JFrame {
@@ -27,7 +30,7 @@ public class TelaVisualizacaoUsuario extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaVisualizacaoUsuario frame = new TelaVisualizacaoUsuario();
+                    TelaVisualizacaoUsuario frame = new TelaVisualizacaoUsuario(null);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -38,8 +41,9 @@ public class TelaVisualizacaoUsuario extends JFrame {
 
     /**
      * Create the frame.
+     * @param cliente 
      */
-    public TelaVisualizacaoUsuario() {
+    public TelaVisualizacaoUsuario(Cliente cliente) {
         getContentPane().setBackground(new Color(48, 105, 41));
         setBounds(100, 100, 1280, 720);
         setLocationRelativeTo(null);
@@ -53,9 +57,11 @@ public class TelaVisualizacaoUsuario extends JFrame {
         getContentPane().add(panel);
         panel.setLayout(null);
         
-        JLabel lblNewLabel = new JLabel("Bem vindo, fulano!");
+        String nomeCliente = (cliente != null) ? cliente.getNome() : "Usuário";
+        JLabel lblNewLabel = new JLabel("Bem vindo, aluno da turma " + nomeCliente + "!");
         lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        lblNewLabel.setBounds(423, 11, 186, 75);
+        lblNewLabel.setBounds(86, 11, 941, 75);
+        lblNewLabel.setHorizontalAlignment(JLabel.CENTER); 
         panel.add(lblNewLabel);
         
         // Define os dados e colunas para a tabela
@@ -108,7 +114,7 @@ public class TelaVisualizacaoUsuario extends JFrame {
         
         // Configura o layout da tabela
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        table.setRowHeight(30); // Define a altura das linhas para 50 pixels
+        table.setRowHeight(30); // Define a altura das linhas para 30 pixels
         table.setBounds(50, 100, 1000, 400);
         panel.add(table);
 
@@ -126,8 +132,6 @@ public class TelaVisualizacaoUsuario extends JFrame {
                 
                 // Verifica se a célula é válida
                 if (row > 0 && column > 0) {
-                	System.out.print(row);
-                	System.out.print(column);
                     String message = String.format("Linha: %d, Coluna: %d", row, column);
                     JOptionPane.showMessageDialog(table, message, "Informação da Célula", JOptionPane.INFORMATION_MESSAGE);
                 }

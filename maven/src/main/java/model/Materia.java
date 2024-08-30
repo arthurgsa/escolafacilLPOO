@@ -2,28 +2,16 @@ package model;
 
 public class Materia {
 
-    private int id;
     private String nome;
     private String descricao;
-    private int idProfessor;
-
+    
     // Construtor
-    public Materia(int id, String nome, String descricao, int idProfessor) {
-        this.id = id;
+    public Materia(String nome, String descricao) {
         this.nome = nome;
         this.descricao = descricao;
-        this.idProfessor = idProfessor;
     }
 
     // Getters e Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -40,21 +28,11 @@ public class Materia {
         this.descricao = descricao;
     }
 
-    public int getIdProfessor() {
-        return idProfessor;
-    }
-
-    public void setIdProfessor(int idProfessor) {
-        this.idProfessor = idProfessor;
-    }
-
     @Override
     public String toString() {
         return "Materia{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
+                "nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
-                ", idProfessor=" + idProfessor +
                 '}';
     }
 }
