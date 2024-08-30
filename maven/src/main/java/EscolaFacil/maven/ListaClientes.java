@@ -23,6 +23,8 @@ import model.ModeloTabela;
 import javax.swing.JScrollPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ListaClientes {
 
@@ -100,7 +102,7 @@ public class ListaClientes {
 				if(e.getButton()==1) {
 					try {
 						Cliente clienteSelecionado = dao.consultarCliente(modeloTabela.getValueAt(table.getSelectedRow(), 0).toString());
-						TelaCadastro telaCadastro = new TelaCadastro(clienteSelecionado, listaCliente);
+						TelaCadastro telaCadastro = new TelaCadastro(clienteSelecionado, listaCliente, true);
 						telaCadastro.setLocationRelativeTo(telaCadastro);
 						telaCadastro.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
 						telaCadastro.setVisible(true);
@@ -114,8 +116,20 @@ public class ListaClientes {
 		table.setRowSorter(rowSorter); /////////////
 		scrollPane.setViewportView(table);
 		
-		JButton btnNewButton = new JButton("Voltar");
-		btnNewButton.setBounds(85, 11, 89, 23);
+		JButton btnNewButton = new JButton("Cadastrar Cliente");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					TelaCadastro telaCadastro = new TelaCadastro(null, listaCliente, true);
+					telaCadastro.setLocationRelativeTo(telaCadastro);
+					telaCadastro.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
+					telaCadastro.setVisible(true);
+				} catch (Exception e2){
+					e2.printStackTrace();
+				}
+			}
+		});
+		btnNewButton.setBounds(85, 11, 175, 48);
 		panel.add(btnNewButton);
 		
 		textFieldBusca = new JTextField();
@@ -127,7 +141,7 @@ public class ListaClientes {
 
 			
 		});
-		textFieldBusca.setBounds(184, 12, 862, 20);
+		textFieldBusca.setBounds(270, 12, 776, 20);
 		panel.add(textFieldBusca);
 		textFieldBusca.setColumns(10);
 		

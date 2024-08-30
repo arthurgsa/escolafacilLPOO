@@ -131,20 +131,20 @@ public class TelaInicial {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JButton btnAlunoPrimeiro = new JButton("Primeiro acesso");
-		btnAlunoPrimeiro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TelaCadastro telaCadastro = new TelaCadastro(null,null);
-				telaCadastro.setLocationRelativeTo(telaCadastro);
-				telaCadastro.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
-				telaCadastro.setVisible(true);
-			}
-		});
-		btnAlunoPrimeiro.setForeground(Color.WHITE);
-		btnAlunoPrimeiro.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAlunoPrimeiro.setBackground(new Color(106, 181, 111));
-		btnAlunoPrimeiro.setBounds(453, 506, 150, 23);
-		panel.add(btnAlunoPrimeiro);
+//	   	JButton btnAlunoPrimeiro = new JButton("Primeiro acesso");
+//		btnAlunoPrimeiro.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				TelaCadastro telaCadastro = new TelaCadastro(null,null, false);
+//				telaCadastro.setLocationRelativeTo(telaCadastro);
+//				telaCadastro.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
+//				telaCadastro.setVisible(true);
+//			}
+//		}); 
+//		btnAlunoPrimeiro.setForeground(Color.WHITE);
+//		btnAlunoPrimeiro.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//		btnAlunoPrimeiro.setBackground(new Color(106, 181, 111));
+//		btnAlunoPrimeiro.setBounds(453, 506, 150, 23);
+//		panel.add(btnAlunoPrimeiro);
 		
 
 	}

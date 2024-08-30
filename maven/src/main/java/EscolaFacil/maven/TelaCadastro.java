@@ -33,6 +33,7 @@ public class TelaCadastro extends JFrame {
 	private JTextField textFieldTelefone;
 	private JTextField textFieldEmail;
 	private JTextField textFieldChave;
+	private JTextField textFieldSenha;
 
 	/**
 	 * Launch the application.
@@ -41,7 +42,7 @@ public class TelaCadastro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaCadastro frame = new TelaCadastro(null, null);
+					TelaCadastro frame = new TelaCadastro(null, null, false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,7 +54,7 @@ public class TelaCadastro extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaCadastro(Cliente clienteSelecionado, ListaClientes listaCliente) {
+	public TelaCadastro(Cliente clienteSelecionado, ListaClientes listaCliente, boolean mostrarBotaoEscola) {
 		DAO dao = new DAO();
 		
 		getContentPane().setBackground(new Color(48, 105, 41));
@@ -110,15 +111,40 @@ public class TelaCadastro extends JFrame {
 		textFieldEmail.setBounds(26, 228, 434, 20);
 		panel.add(textFieldEmail);
 		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Escola?");
+		rdbtnNewRadioButton.setBounds(26, 349, 109, 23);
+		panel.add(rdbtnNewRadioButton);
+		
+		if (mostrarBotaoEscola) {
+            rdbtnNewRadioButton.setVisible(true);
+        } else {
+            rdbtnNewRadioButton.setVisible(false);
+        }
+		
+		
+		
 		JButton btnCadastrar = new JButton(clienteSelecionado == null? "Incluir" : "Alterar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String buttonRadio = "0";
 				
-				Cliente cliente = new Cliente(null, textFieldNome.getText(), textFieldCpf.getText(), textFieldEmail.getText(), textFieldTelefone.getText());
+				if (rdbtnNewRadioButton.isSelected()) {
+					buttonRadio = "1";
+				}
+				
+				Cliente cliente = new Cliente(null, textFieldNome.getText(), textFieldCpf.getText(), textFieldEmail.getText(), textFieldTelefone.getText(), textFieldChave.getText(), textFieldSenha.getText(), buttonRadio);
 				//String id, String nome, String cpfCnpj, String email, String telefone
 				if(clienteSelecionado == null) {
-					if(!"".equalsIgnoreCase(textFieldNome.getText()) && !"".equalsIgnoreCase(textFieldCpf.getText())) {
+					if(		!"".equalsIgnoreCase(textFieldNome.getText()) && 
+							!"".equalsIgnoreCase(textFieldChave.getText()) && 
+							!"".equalsIgnoreCase(textFieldSenha.getText())) {
 						dao.cadastrarCliente(cliente);
+						if(mostrarBotaoEscola) {
+							
+							abrirListaClientes(listaCliente);
+						} else {
+						dispose();
+						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Confira os campos Nome e CPF/CNPJ");
 					}
@@ -143,34 +169,12 @@ public class TelaCadastro extends JFrame {
 		btnCadastrar.setBounds(156, 382, 173, 23);
 		panel.add(btnCadastrar);
 		
-		JLabel lblEmail_1_1 = new JLabel("Aluno");
-		lblEmail_1_1.setBounds(57, 332, 54, 14);
-		panel.add(lblEmail_1_1);
-		
-		JLabel lblEmail_1_1_1 = new JLabel("Professor");
-		lblEmail_1_1_1.setBounds(57, 353, 54, 14);
-		panel.add(lblEmail_1_1_1);
-		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("");
-		rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
-		rdbtnNewRadioButton.setBounds(32, 332, 21, 14);
-		panel.add(rdbtnNewRadioButton);
-		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("");
-		rdbtnNewRadioButton_1.setBackground(Color.WHITE);
-		rdbtnNewRadioButton_1.setBounds(32, 353, 21, 14);
-		panel.add(rdbtnNewRadioButton_1);
-		
-		JLabel lblEmail_1_1_2 = new JLabel("Você é");
-		lblEmail_1_1_2.setBounds(32, 311, 54, 14);
-		panel.add(lblEmail_1_1_2);
-		
 		textFieldChave = new JTextField();
 		textFieldChave.setColumns(10);
 		textFieldChave.setBounds(26, 275, 434, 20);
 		panel.add(textFieldChave);
 		
-		JLabel lblChave = new JLabel("Chave de Vínculo Escolar");
+		JLabel lblChave = new JLabel("Chave Turma ou Professor");
 		lblChave.setBounds(26, 259, 181, 14);
 		panel.add(lblChave);
 		
@@ -179,6 +183,17 @@ public class TelaCadastro extends JFrame {
 		lblTenhaEmMos.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblTenhaEmMos.setBounds(99, 41, 253, 35);
 		panel.add(lblTenhaEmMos);
+		
+		JLabel lblSenha = new JLabel("Senha");
+		lblSenha.setBounds(26, 306, 46, 14);
+		panel.add(lblSenha);
+		
+		textFieldSenha = new JTextField();
+		textFieldSenha.setColumns(10);
+		textFieldSenha.setBounds(26, 322, 434, 20);
+		panel.add(textFieldSenha);
+		
+		
 		
 		
 		
@@ -225,3 +240,5 @@ public class TelaCadastro extends JFrame {
 	    dispose(); 
 	}
 }
+
+
