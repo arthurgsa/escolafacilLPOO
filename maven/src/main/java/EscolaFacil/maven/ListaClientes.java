@@ -77,7 +77,7 @@ public class ListaClientes {
 		
 		frame = new JFrame();
 		
-		frame.getContentPane().setBackground(new Color(48, 105, 41));
+		frame.getContentPane().setBackground(new Color(49, 105, 41));
 		frame.setBounds(100, 100, 1280, 720);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
